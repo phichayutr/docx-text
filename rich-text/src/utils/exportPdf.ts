@@ -14,6 +14,10 @@ interface ExportPdfOptions {
   pageElement?: HTMLElement | null;
 }
 
+function normalizeWhitespace(html: string): string {
+  return html.replace(/ {2,}/g, (match) => '&nbsp;'.repeat(match.length))
+}
+
 function pxToPt(html: string): string {
   return html.replace(/font-size:\s*(\d+(?:\.\d+)?)px/gi, (_, px) => {
     const pt = Math.round(parseFloat(px) * 1);
@@ -56,6 +60,7 @@ function buildFullHtml(html: string, pageElement: HTMLElement | null, signatures
   }
 
   html = pxToPt(html);
+  html = normalizeWhitespace(html);
 
   let signatureLayer = "";
   if (signatures.length > 0) {

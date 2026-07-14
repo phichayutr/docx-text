@@ -419,7 +419,8 @@
   outline: none;
   min-height: 200mm;
   font-family: 'TH Sarabun New', sans-serif;
-  zoom: 1.3333
+  zoom: 1.3333;
+  white-space: pre-wrap;
 }
 
 .document-content h1 {
