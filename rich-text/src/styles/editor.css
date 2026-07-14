@@ -1,0 +1,825 @@
+/* === App Layout === */
+
+.app-layout {
+  display: flex;
+  min-height: 100vh;
+}
+
+.app-main {
+  flex: 1;
+  margin-left: 220px;
+  transition: margin-left 0.2s ease;
+  min-width: 0;
+}
+
+.app-layout:has(.sidebar.collapsed) .app-main {
+  margin-left: 60px;
+}
+
+/* === Editor Layout === */
+
+.editor-wrapper {
+  min-height: 100vh;
+  background: #f0f0f0;
+}
+
+.editor-header {
+  background: white;
+  padding: 16px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #e0e0e0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.editor-header h1 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+  color: #333;
+}
+
+/* === Toolbar === */
+.toolbar {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 8px 16px;
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  flex-wrap: wrap;
+  position: sticky;
+  top: 57px;
+  z-index: 99;
+}
+
+.toolbar-group {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+/* === Font Selector === */
+.font-selector {
+  display: flex;
+  align-items: center;
+}
+
+.font-selector select {
+  padding: 4px 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background: white;
+  font-family: 'Sarabun', sans-serif;
+  font-size: 13px;
+  color: #333;
+  cursor: pointer;
+  outline: none;
+  min-width: 140px;
+  transition: border-color 0.15s;
+}
+
+.font-selector select:hover {
+  border-color: #999;
+}
+
+.font-selector select:focus {
+  border-color: #1a73e8;
+}
+
+/* === Font Size Dropdown === */
+.font-size-dropdown select {
+  padding: 4px 20px 4px 6px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background: white;
+  font-family: 'Sarabun', sans-serif;
+  font-size: 13px;
+  color: #333;
+  cursor: pointer;
+  outline: none;
+  min-width: 48px;
+  text-align: center;
+  transition: border-color 0.15s;
+  appearance: auto;
+  -webkit-appearance: auto;
+}
+
+.font-size-dropdown select:hover {
+  border-color: #999;
+}
+
+.font-size-dropdown select:focus {
+  border-color: #1a73e8;
+}
+
+/* === Page Margin Ruler === */
+.margin-ruler-wrapper {
+  position: relative;
+}
+
+.margin-ruler-toggle {
+  width: auto !important;
+  padding: 4px 8px !important;
+  gap: 4px;
+}
+
+.margin-ruler-panel {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  margin-top: 8px;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  padding: 12px;
+  z-index: 300;
+  width: 260px;
+}
+
+.margin-ruler-header {
+  font-size: 12px;
+  font-weight: 600;
+  color: #555;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.margin-ruler-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+}
+
+.margin-edge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: ns-resize;
+  padding: 2px 0;
+  position: relative;
+}
+
+.margin-edge.margin-left,
+.margin-edge.margin-right {
+  cursor: ew-resize;
+  flex-direction: column;
+  padding: 0;
+}
+
+.margin-middle {
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+}
+
+.margin-ruler-track {
+  display: flex;
+  gap: 2px;
+  padding: 2px 4px;
+}
+
+.margin-ruler-track.vertical {
+  flex-direction: column;
+  padding: 4px 2px;
+}
+
+.margin-tick {
+  width: 2px;
+  height: 6px;
+  background: #bbb;
+  display: block;
+}
+
+.margin-tick.major {
+  height: 10px;
+  background: #888;
+}
+
+.margin-ruler-track.vertical .margin-tick {
+  width: 6px;
+  height: 2px;
+}
+
+.margin-ruler-track.vertical .margin-tick.major {
+  width: 10px;
+  height: 2px;
+}
+
+.margin-label {
+  font-size: 10px;
+  font-weight: 600;
+  color: #1a73e8;
+  min-width: 30px;
+  text-align: center;
+}
+
+.margin-label.vertical {
+  writing-mode: vertical-lr;
+  font-size: 10px;
+  padding: 4px 0;
+}
+
+.margin-page-content {
+  width: 100px;
+  height: 120px;
+  background: #f9f9f9;
+  border: 1px solid #ddd;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.margin-page-label {
+  font-size: 18px;
+  font-weight: 700;
+  color: #ccc;
+}
+
+.margin-presets {
+  display: flex;
+  gap: 4px;
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
+
+.margin-preset-btn {
+  padding: 3px 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background: white;
+  font-size: 11px;
+  font-family: 'Sarabun', sans-serif;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.margin-preset-btn:hover {
+  background: #e8e8e8;
+  border-color: #999;
+}
+
+.margin-inputs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+  margin-top: 10px;
+}
+
+.margin-input-group {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  color: #666;
+}
+
+.margin-input-group input {
+  width: 50px;
+  padding: 2px 4px;
+  border: 1px solid #ddd;
+  border-radius: 3px;
+  font-size: 11px;
+  text-align: center;
+  font-family: 'Sarabun', sans-serif;
+}
+
+.margin-input-group input:focus {
+  outline: none;
+  border-color: #1a73e8;
+}
+
+.toolbar-divider {
+  width: 1px;
+  height: 24px;
+  background: #e0e0e0;
+  margin: 0 4px;
+}
+
+.toolbar-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: 4px;
+  background: transparent;
+  cursor: pointer;
+  color: #555;
+  transition: all 0.15s;
+}
+
+.toolbar-btn:hover {
+  background: #e8e8e8;
+  color: #333;
+}
+
+.toolbar-btn.active {
+  background: #d0e0ff;
+  color: #1a73e8;
+}
+
+.toolbar-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.toolbar-btn.export-action {
+  width: auto;
+  padding: 4px 10px;
+  gap: 4px;
+  font-size: 12px;
+  font-family: 'Sarabun', sans-serif;
+}
+
+/* === Template Selector === */
+.template-selector {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background: white;
+  color: #555;
+  font-size: 12px;
+}
+
+.template-selector select {
+  border: none;
+  outline: none;
+  font-family: 'Sarabun', sans-serif;
+  font-size: 12px;
+  background: transparent;
+  cursor: pointer;
+  color: #333;
+  padding-right: 4px;
+}
+
+/* === Import Dropdown === */
+.import-wrapper {
+  position: relative;
+}
+
+.import-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  margin-top: 4px;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  z-index: 200;
+  min-width: 160px;
+  overflow: hidden;
+}
+
+.import-option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  cursor: pointer;
+  font-size: 13px;
+  font-family: 'Sarabun', sans-serif;
+  color: #333;
+  transition: background 0.15s;
+}
+
+.import-option:hover {
+  background: #f0f4ff;
+}
+
+/* === Import Warnings === */
+.import-warnings {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 12px 20px;
+  background: #fff8e1;
+  border-bottom: 1px solid #ffe082;
+  color: #795548;
+  font-size: 13px;
+}
+
+.import-warnings ul {
+  margin: 4px 0 0;
+  padding-left: 16px;
+}
+
+/* === TipTap Editor Content === */
+.document-content {
+  outline: none;
+  min-height: 200mm;
+  font-family: 'TH Sarabun New', sans-serif;
+  zoom: 1.3333
+}
+
+.document-content h1 {
+  font-family: 'Sarabun', sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+  margin: 0 0 8px;
+  color: #000;
+}
+
+.document-content h2 {
+  font-family: 'Sarabun', sans-serif;
+  font-size: 20px;
+  font-weight: 600;
+  margin: 0 0 8px;
+  color: #000;
+}
+
+.document-content h3 {
+  font-family: 'Sarabun', sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+  margin: 0 0 8px;
+  color: #000;
+}
+
+.document-content p {
+  font-family: 'Sarabun', sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  margin: 0 0 4px;
+  color: #000;
+}
+
+.document-content ul,
+.document-content ol {
+  font-family: 'Sarabun', sans-serif;
+  margin: 8px 0;
+  padding-left: 32px;
+}
+
+.document-content li {
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+/* Table styles */
+.document-content table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 12px 0;
+  font-family: 'Sarabun', sans-serif;
+}
+
+.document-content th,
+.document-content td {
+  border: 1px solid #000;
+  padding: 8px 12px;
+  text-align: left;
+  font-size: 14px;
+}
+
+.document-content th {
+  background: #f0f0f0;
+  font-weight: 600;
+}
+
+.document-content .selectedCell {
+  background: #d0e0ff;
+}
+
+.document-content .columnResizeHandle {
+  position: absolute;
+  right: -2px;
+  top: 0;
+  bottom: -2px;
+  width: 4px;
+  background: #1a73e8;
+  cursor: col-resize;
+}
+
+/* Image styles */
+.document-content img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 8px auto;
+}
+
+/* Placeholder */
+.document-content p.is-editor-empty:first-child::before {
+  content: attr(data-placeholder);
+  float: left;
+  color: #adb5bd;
+  pointer-events: none;
+  height: 0;
+}
+
+/* Highlight */
+.document-content mark {
+  background-color: #fff3cd;
+  border-radius: 2px;
+  padding: 0 2px;
+}
+
+/* Horizontal rule */
+.document-content hr {
+  border: none;
+  border-top: 1px solid #ccc;
+  margin: 16px 0;
+}
+
+/* Font size via textStyle mark */
+.document-content [style*="font-size"] {
+  font-size: inherit;
+}
+
+.document-content span[style] {
+  line-height: 1.5;
+}
+
+/* === Signature Components === */
+.sig-manager {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.sig-manager-header {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  color: #555;
+  font-weight: 500;
+}
+
+.sig-manager-actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.sig-name-input {
+  padding: 4px 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 12px;
+  font-family: 'Sarabun', sans-serif;
+  width: 120px;
+}
+
+.sig-name-input:focus {
+  outline: none;
+  border-color: #1a73e8;
+}
+
+.sig-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 12px;
+  font-family: 'Sarabun', sans-serif;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.sig-btn.primary {
+  background: #1a73e8;
+  color: white;
+  border-color: #1a73e8;
+}
+
+.sig-btn.primary:hover {
+  background: #1557b0;
+}
+
+.sig-btn.secondary {
+  background: white;
+  color: #555;
+}
+
+.sig-btn.secondary:hover {
+  background: #f0f0f0;
+}
+
+.sig-btn.danger {
+  background: white;
+  color: #d32f2f;
+  border-color: #d32f2f;
+}
+
+.sig-btn.danger:hover {
+  background: #fdecea;
+}
+
+.sig-btn.small {
+  padding: 3px 8px;
+  font-size: 11px;
+}
+
+/* Signature Canvas Panel */
+.sig-canvas-panel {
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 12px;
+  width: 360px;
+}
+
+.sig-canvas-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #333;
+}
+
+.sig-color-picker label {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+}
+
+.sig-color-picker input[type="color"] {
+  width: 20px;
+  height: 20px;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  background: none;
+}
+
+.sig-canvas-area {
+  border: 2px dashed #ccc;
+  border-radius: 6px;
+  background: white;
+  margin-bottom: 8px;
+}
+
+.sig-canvas {
+  width: 100%;
+  height: 150px;
+  display: block;
+}
+
+.sig-canvas-actions {
+  display: flex;
+  gap: 6px;
+  justify-content: flex-end;
+}
+
+/* Signature Layer */
+.signature-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  z-index: 50;
+}
+
+.signature-item {
+  position: absolute;
+  pointer-events: auto;
+  border: 2px dashed #1a73e8;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.9);
+  cursor: move;
+  overflow: hidden;
+}
+
+.signature-item img {
+  width: 100%;
+  height: calc(100% - 20px);
+  object-fit: contain;
+  display: block;
+  user-select: none;
+  pointer-events: none;
+}
+
+.sig-item-controls {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  display: flex;
+  gap: 2px;
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+
+.signature-item:hover .sig-item-controls {
+  opacity: 1;
+}
+
+.sig-control-btn {
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.9);
+  color: #555;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.sig-control-btn:hover {
+  background: #e8e8e8;
+  color: #333;
+}
+
+.sig-control-btn.delete:hover {
+  background: #fdecea;
+  color: #d32f2f;
+}
+
+.sig-item-label {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgb(250, 250, 250);
+  color: black;
+  font-size: 9px;
+  padding: 1px 4px;
+  display: flex;
+  justify-content: space-between;
+  pointer-events: none;
+}
+
+.sig-timestamp {
+  opacity: 0.8;
+}
+
+/* Signature List (in manager) */
+.sig-list {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-top: 4px;
+}
+
+.sig-list-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 8px;
+  border: 1px solid #eee;
+  border-radius: 6px;
+  background: #fafafa;
+}
+
+.sig-thumb {
+  width: 40px;
+  height: 24px;
+  object-fit: contain;
+  border: 1px solid #ddd;
+  border-radius: 3px;
+  background: white;
+}
+
+.sig-info {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+}
+
+.sig-name {
+  font-size: 11px;
+  font-weight: 500;
+  color: #333;
+}
+
+.sig-time {
+  font-size: 9px;
+  color: #999;
+}
+
+.sig-remove-btn {
+  background: none;
+  border: none;
+  color: #999;
+  cursor: pointer;
+  padding: 2px;
+  border-radius: 3px;
+  transition: all 0.15s;
+}
+
+.sig-remove-btn:hover {
+  color: #d32f2f;
+  background: #fdecea;
+}

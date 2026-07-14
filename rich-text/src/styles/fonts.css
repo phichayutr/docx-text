@@ -1,0 +1,127 @@
+@font-face {
+  font-family: 'TH Sarabun New';
+  src: url('../assets/font/THSarabunNew/THSarabunNew.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'TH Sarabun New';
+  src: url('../assets/font/THSarabunNew/THSarabunNew Bold.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'TH Sarabun New';
+  src: url('../assets/font/THSarabunNew/THSarabunNew Italic.ttf') format('truetype');
+  font-weight: normal;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'TH Sarabun New';
+  src: url('../assets/font/THSarabunNew/THSarabunNew BoldItalic.ttf') format('truetype');
+  font-weight: bold;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'TH Sarabun IT๙';
+  src: url('../assets/font/THSarabunIT๙/THSarabunIT๙.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'TH Sarabun IT๙';
+  src: url('../assets/font/THSarabunIT๙/THSarabunIT๙ Bold.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'TH Sarabun IT๙';
+  src: url('../assets/font/THSarabunIT๙/THSarabunIT๙ Italic.ttf') format('truetype');
+  font-weight: normal;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'TH Sarabun IT๙';
+  src: url('../assets/font/THSarabunIT๙/THSarabunIT๙ BoldItalic.ttf') format('truetype');
+  font-weight: bold;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'TH Sarabun PSK';
+  src: url('../assets/font/THSarabunPSK/THSarabun.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'TH Sarabun PSK';
+  src: url('../assets/font/THSarabunPSK/THSarabun Bold.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'TH Sarabun PSK';
+  src: url('../assets/font/THSarabunPSK/THSarabun Italic.ttf') format('truetype');
+  font-weight: normal;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'TH Sarabun PSK';
+  src: url('../assets/font/THSarabunPSK/THSarabun BoldItalic.ttf') format('truetype');
+  font-weight: bold;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'TH Niramit IT๙';
+  src: url('../assets/font/THSarabunIT๙/TH NiramitIT๙.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'TH Niramit IT๙';
+  src: url('../assets/font/THSarabunIT๙/TH NiramitIT๙ Bold.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'TH Niramit IT๙';
+  src: url('../assets/font/THSarabunIT๙/TH NiramitIT๙ Italic.ttf') format('truetype');
+  font-weight: normal;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'TH Niramit IT๙';
+  src: url('../assets/font/THSarabunIT๙/TH Niramit AS-IT๙ Bold Italic.ttf') format('truetype');
+  font-weight: bold;
+  font-style: italic;
+  font-display: swap;
+}

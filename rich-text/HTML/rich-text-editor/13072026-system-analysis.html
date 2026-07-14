@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>System Analysis - Rich Text Editor</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sarabun:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', 'Sarabun', sans-serif; background: #f8fafc; color: #1e293b; line-height: 1.6; }
+    .container { max-width: 960px; margin: 0 auto; padding: 40px 24px; }
+    h1 { font-size: 28px; font-weight: 700; color: #0f172a; margin-bottom: 8px; }
+    .subtitle { font-size: 14px; color: #64748b; margin-bottom: 32px; }
+    h2 { font-size: 20px; font-weight: 600; color: #1e293b; margin: 32px 0 16px; padding-bottom: 8px; border-bottom: 2px solid #e2e8f0; }
+    h3 { font-size: 16px; font-weight: 600; color: #334155; margin: 20px 0 10px; }
+    table { width: 100%; border-collapse: collapse; margin: 12px 0 20px; font-size: 14px; }
+    th { background: #f1f5f9; font-weight: 600; text-align: left; padding: 10px 12px; border: 1px solid #e2e8f0; }
+    td { padding: 8px 12px; border: 1px solid #e2e8f0; }
+    tr:hover td { background: #f8fafc; }
+    code { background: #f1f5f9; padding: 2px 6px; border-radius: 4px; font-size: 13px; font-family: 'Fira Code', monospace; color: #e11d48; }
+    pre { background: #1e293b; color: #e2e8f0; padding: 16px; border-radius: 8px; overflow-x: auto; font-size: 13px; line-height: 1.5; margin: 12px 0; }
+    pre code { background: none; color: inherit; padding: 0; }
+    .card { background: white; border: 1px solid #e2e8f0; border-radius: 8px; padding: 20px; margin: 16px 0; }
+    .badge { display: inline-block; padding: 2px 8px; border-radius: 12px; font-size: 12px; font-weight: 500; }
+    .badge-blue { background: #dbeafe; color: #1d4ed8; }
+    .badge-green { background: #dcfce7; color: #16a34a; }
+    .badge-yellow { background: #fef9c3; color: #a16207; }
+    .badge-red { background: #fee2e2; color: #dc2626; }
+    .flow { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin: 12px 0; font-size: 13px; }
+    .flow-step { background: #f1f5f9; padding: 6px 12px; border-radius: 6px; border: 1px solid #e2e8f0; }
+    .flow-arrow { color: #94a3b8; font-size: 16px; }
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 16px 0; }
+    .stat { text-align: center; padding: 16px; background: white; border: 1px solid #e2e8f0; border-radius: 8px; }
+    .stat-value { font-size: 28px; font-weight: 700; color: #1a73e8; }
+    .stat-label { font-size: 12px; color: #64748b; margin-top: 4px; }
+    ul { padding-left: 20px; margin: 8px 0; }
+    li { margin: 4px 0; font-size: 14px; }
+    .warning { background: #fffbeb; border: 1px solid #fde68a; border-radius: 8px; padding: 12px 16px; margin: 16px 0; font-size: 13px; color: #92400e; }
+    .warning strong { display: block; margin-bottom: 4px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Rich Text Editor — System Analysis</h1>
+    <p class="subtitle">Thai Government Document POC · Track 2: Template Flow + Import/Export · Generated 13 July 2026</p>
+
+    <div class="grid">
+      <div class="stat"><div class="stat-value">14</div><div class="stat-label">TipTap Extensions</div></div>
+      <div class="stat"><div class="stat-value">4</div><div class="stat-label">Utility Modules</div></div>
+      <div class="stat"><div class="stat-value">3</div><div class="stat-label">Document Templates</div></div>
+      <div class="stat"><div class="stat-value">3</div><div class="stat-label">CSS Files (727 lines)</div></div>
+    </div>
+
+    <h2>1. Tech Stack</h2>
+    <table>
+      <thead><tr><th>Layer</th><th>Library</th><th>Version</th><th>Purpose</th></tr></thead>
+      <tbody>
+        <tr><td>Framework</td><td>React</td><td><code>^19.2.7</code></td><td>UI components, state management</td></tr>
+        <tr><td>Language</td><td>TypeScript</td><td><code>^7.0.2</code></td><td>Type safety</td></tr>
+        <tr><td>Bundler</td><td>Vite</td><td><code>^8.1.1</code></td><td>Dev server, build, HMR</td></tr>
+        <tr><td>Editor Core</td><td>TipTap (ProseMirror)</td><td><code>^3.27.3</code></td><td>Rich text editing engine</td></tr>
+        <tr><td>Icons</td><td>Lucide React</td><td><code>^1.24.0</code></td><td>Toolbar/sidebar icons</td></tr>
+        <tr><td>DOCX Export</td><td>docx</td><td><code>^9.7.1</code></td><td>Generate .docx files</td></tr>
+        <tr><td>PDF Export</td><td>html2pdf.js</td><td><code>^0.14.0</code></td><td>HTML → PDF conversion</td></tr>
+        <tr><td>DOCX Import</td><td>mammoth</td><td><code>^1.12.0</code></td><td>.docx → HTML conversion</td></tr>
+        <tr><td>PDF Import</td><td>pdfjs-dist</td><td><code>^4.9.155</code></td><td>Extract text from PDF</td></tr>
+        <tr><td>Linter</td><td>oxlint</td><td><code>^1.71.0</code></td><td>Code linting</td></tr>
+      </tbody>
+    </table>
+
+    <h2>2. TipTap Extensions</h2>
+    <table>
+      <thead><tr><th>Extension</th><th>Package</th><th>Feature</th></tr></thead>
+      <tbody>
+        <tr><td>StarterKit</td><td><code>@tiptap/starter-kit</code></td><td>Core: paragraphs, headings, lists, history</td></tr>
+        <tr><td>TextAlign</td><td><code>@tiptap/extension-text-align</code></td><td>Left/center/right/justify</td></tr>
+        <tr><td>Table</td><td><code>@tiptap/extension-table</code></td><td>Resizable table with header row</td></tr>
+        <tr><td>TableRow</td><td><code>@tiptap/extension-table-row</code></td><td>Table row structure</td></tr>
+        <tr><td>TableCell</td><td><code>@tiptap/extension-table-cell</code></td><td>Table cell with selection</td></tr>
+        <tr><td>TableHeader</td><td><code>@tiptap/extension-table-header</code></td><td>Header row styling</td></tr>
+        <tr><td>Image</td><td><code>@tiptap/extension-image</code></td><td>Inline/base64 image embedding</td></tr>
+        <tr><td>Highlight</td><td><code>@tiptap/extension-highlight</code></td><td>Text highlighting</td></tr>
+        <tr><td>Underline</td><td><code>@tiptap/extension-underline</code></td><td>Underline formatting</td></tr>
+        <tr><td>Placeholder</td><td><code>@tiptap/extension-placeholder</code></td><td>Empty editor placeholder</td></tr>
+        <tr><td>TextStyle</td><td><code>@tiptap/extension-text-style</code></td><td>Inline style marks</td></tr>
+        <tr><td>FontFamily</td><td><code>@tiptap/extension-font-family</code></td><td>Font family selection</td></tr>
+        <tr><td>Color</td><td><code>@tiptap/extension-color</code></td><td>Text color</td></tr>
+      </tbody>
+    </table>
+
+    <h2>3. Architecture</h2>
+    <pre><code>src/
+├── main.tsx                      Entry point
+├── App.tsx                       Root layout (Sidebar + Editor)
+├── vite-env.d.ts                 Vite type declarations
+├── components/
+│   ├── Editor.tsx                Main editor, template switch, import/export
+│   ├── Toolbar.tsx               20+ formatting buttons, font selector
+│   ├── Sidebar.tsx               Navigation sidebar (collapsible)
+│   └── PageMarginRuler.tsx       Interactive margin adjustment
+├── templates/
+│   └── index.ts                  3 Thai government document templates
+├── utils/
+│   ├── exportDocx.ts             HTML → DOCX (docx library)
+│   ├── exportPdf.ts              HTML → PDF (html2pdf.js)
+│   ├── importDocx.ts             DOCX → HTML (mammoth)
+│   └── importPdf.ts              PDF → text → HTML (pdfjs-dist)
+└── styles/
+    ├── editor.css                Editor layout, toolbar, margin ruler
+    ├── document.css              A4 page, print styles
+    └── sidebar.css               Sidebar navigation</code></pre>
+
+    <h2>4. Component Responsibilities</h2>
+
+    <div class="card">
+      <h3>App.tsx</h3>
+      <ul>
+        <li>Root layout: flex container with <code>Sidebar</code> (fixed left) + <code>main</code> content</li>
+        <li>Manages <code>activeNav</code> state for sidebar navigation</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>Editor.tsx</h3>
+      <ul>
+        <li>Initializes TipTap editor with all 13 extensions</li>
+        <li>Template switching: 3 templates (internalMemo, officialLetter, memoNote)</li>
+        <li>Import: accepts <code>.docx</code> and <code>.pdf</code> files with warning display</li>
+        <li>Export: DOCX and PDF output with filename from active template</li>
+        <li>Page margin state management via <code>PageMarginRuler</code></li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>Toolbar.tsx</h3>
+      <ul>
+        <li>20+ formatting buttons organized in groups with dividers</li>
+        <li>Font family selector: 10 Thai/English fonts (Chakra Petch, Mitr, Prompt, Kanit, Noto Sans/Serif Thai, Arial, Times New Roman, Courier New)</li>
+        <li>Heading levels: P, H1, H2, H3</li>
+        <li>Text formatting: Bold, Italic, Underline, Strikethrough, Highlight</li>
+        <li>Alignment: Left, Center, Right, Justify</li>
+        <li>Lists: Bullet, Ordered, Horizontal Rule</li>
+        <li>Insert: Image (URL prompt), Table (3×3 with header)</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>Sidebar.tsx</h3>
+      <ul>
+        <li>7 navigation items: Home, New Document, Templates, Import, Export, Sign, Settings</li>
+        <li>Collapsible: 220px → 60px with animated transition</li>
+        <li>Active state highlighting with blue background</li>
+        <li>Tooltip on collapsed mode</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>PageMarginRuler.tsx</h3>
+      <ul>
+        <li>Visual A4 page representation with draggable margin edges</li>
+        <li>4 presets: ราชการ (25/25/30/15mm), มาตรฐาน (25.4mm), แคบ (12.7mm), กว้าง (20/20/35/20mm)</li>
+        <li>Numeric input fields for precise margin control</li>
+        <li>Click-outside to close panel</li>
+      </ul>
+    </div>
+
+    <h2>5. Templates</h2>
+    <table>
+      <thead><tr><th>Key</th><th>Name</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td><code>internalMemo</code></td><td>หนังสือ内部</td><td>Internal memorandum with header, body, signature block</td></tr>
+        <tr><td><code>officialLetter</code></td><td>หนังสือประทับตรา</td><td>Official sealed letter with numbered items</td></tr>
+        <tr><td><code>memoNote</code></td><td>บันทึกข้อความ</td><td>Internal note with table header, numbered sections</td></tr>
+      </tbody>
+    </table>
+
+    <h2>6. Export/Import Flow</h2>
+
+    <h3>Export DOCX</h3>
+    <div class="flow">
+      <span class="flow-step">Editor.getHTML()</span>
+      <span class="flow-arrow">→</span>
+      <span class="flow-step">parseHTMLToDocxElements()</span>
+      <span class="flow-arrow">→</span>
+      <span class="flow-step">docx.Document</span>
+      <span class="flow-arrow">→</span>
+      <span class="flow-step">Packer.toBlob()</span>
+      <span class="flow-arrow">→</span>
+      <span class="flow-step">download</span>
+    </div>
+    <ul>
+      <li>Parses HTML nodes recursively (headings, paragraphs, tables, lists)</li>
+      <li>Handles inline styles: bold, italic, underline, strike</li>
+      <li>Sets A4 page size (11906×16838 twips), Thai government margins</li>
+      <li>Font: TH Sarabun New, size: 16pt (32 half-points)</li>
+    </ul>
+
+    <h3>Export PDF</h3>
+    <div class="flow">
+      <span class="flow-step">Editor.getHTML()</span>
+      <span class="flow-arrow">→</span>
+      <span class="flow-step">Hidden container</span>
+      <span class="flow-arrow">→</span>
+      <span class="flow-step">html2pdf.js</span>
+      <span class="flow-arrow">→</span>
+      <span class="flow-step">jsPDF</span>
+      <span class="flow-arrow">→</span>
+      <span class="flow-step">download</span>
+    </div>
+    <ul>
+      <li>Renders HTML to canvas (scale: 2x, JPEG quality: 0.98)</li>
+      <li>A4 format, portrait orientation</li>
+      <li>Page break mode: avoid-all, css, legacy</li>
+    </ul>
+
+    <h3>Import DOCX</h3>
+    <div class="flow">
+      <span class="flow-step">File</span>
+      <span class="flow-arrow">→</span>
+      <span class="flow-step">mammoth.convertToHtml()</span>
+      <span class="flow-arrow">→</span>
+      <span class="flow-step">Editor.setContent()</span>
+    </div>
+    <ul>
+      <li>Style mapping: Heading 1-3 → h1-h3, Title → h1, Subtitle → h2</li>
+      <li>Images converted to base64 inline</li>
+      <li>Returns warnings for unsupported elements</li>
+    </ul>
+
+    <h3>Import PDF</h3>
+    <div class="flow">
+      <span class="flow-step">File</span>
+      <span class="flow-arrow">→</span>
+      <span class="flow-step">pdfjs.getDocument()</span>
+      <span class="flow-arrow">→</span>
+      <span class="flow-step">getTextContent()</span>
+      <span class="flow-arrow">→</span>
+      <span class="flow-step">paragraph reconstruction</span>
+      <span class="flow-arrow">→</span>
+      <span class="flow-step">Editor.setContent()</span>
+    </div>
+    <ul>
+      <li>Y-coordinate based paragraph detection (threshold: 5px)</li>
+      <li>Text-only extraction — formatting, tables, images are lost</li>
+    </ul>
+
+    <div class="warning">
+      <strong>⚠ PDF Import Limitation</strong>
+      PDF files do not store document structure (paragraphs, tables) in a way that can be reliably reconstructed. The import extracts raw text only. For full fidelity, use DOCX import instead.
+    </div>
+
+    <h2>7. CSS Architecture</h2>
+    <table>
+      <thead><tr><th>File</th><th>Lines</th><th>Purpose</th></tr></thead>
+      <tbody>
+        <tr><td><code>editor.css</code></td><td>514</td><td>Layout, toolbar, margin ruler, font selector, import dropdown</td></tr>
+        <tr><td><code>document.css</code></td><td>107</td><td>A4 page dimensions (210×297mm), header/footer, print styles</td></tr>
+        <tr><td><code>sidebar.css</code></td><td>106</td><td>Sidebar navigation, collapse animation, active state</td></tr>
+      </tbody>
+    </table>
+
+    <h2>8. Print Support</h2>
+    <ul>
+      <li><code>@media print</code> rules hide UI elements via <code>.no-print</code> class</li>
+      <li>A4 page rendered with proper margins (25mm top/bottom, 30mm left, 15mm right)</li>
+      <li>Header/footer positioned with <code>position: fixed</code></li>
+      <li>Box shadows removed for clean print output</li>
+    </ul>
+
+    <h2>9. Known Limitations</h2>
+    <table>
+      <thead><tr><th>Issue</th><th>Severity</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr><td>PDF Import: text-only</td><td><span class="badge badge-yellow">Medium</span></td><td>Formatting, tables, images lost</td></tr>
+        <tr><td>No pagination</td><td><span class="badge badge-yellow">Medium</span></td><td>TipTap has no built-in page break handling</td></tr>
+        <tr><td>No digital signature</td><td><span class="badge badge-red">High</span></td><td>Track 3 not yet implemented</td></tr>
+        <tr><td>Font export mismatch</td><td><span class="badge badge-blue">Low</span></td><td>Export may differ from on-screen display</td></tr>
+        <tr><td>No virtual scrolling</td><td><span class="badge badge-blue">Low</span></td><td>Large documents may have performance issues</td></tr>
+      </tbody>
+    </table>
+  </div>
+</body>
+</html>

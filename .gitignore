@@ -1,0 +1,10 @@
+node_modules/
+dist/
+.kilo/node_modules/
+rich-text/node_modules/
+rich-text-back/node_modules/
+rich-text-back/dist/
+rich-text/.vite/
+*.log
+.DS_Store
+Thumbs.db
