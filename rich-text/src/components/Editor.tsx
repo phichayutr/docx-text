@@ -25,7 +25,9 @@ import Toolbar from './Toolbar'
 import PageMarginRuler, { type PageMargins } from './PageMarginRuler'
 import SignatureManager from './SignatureManager'
 import SignatureLayer from './SignatureLayer'
+import PdfAnnotator from './PdfAnnotator'
 import type { SignatureData } from './SignatureLayer'
+import type { PdfPageData } from '../utils/importPdf'
 import { templates } from '../templates/index'
 import { exportToDocx } from '../utils/exportDocx'
 import { exportToPdf } from '../utils/exportPdf'
@@ -43,6 +45,9 @@ export default function Editor() {
     right: 1.5,
   })
   const [signatures, setSignatures] = useState<SignatureData[]>([])
+  const [pdfMode, setPdfMode] = useState(false)
+  const [pdfPages, setPdfPages] = useState<PdfPageData[]>([])
+  const [pdfData, setPdfData] = useState<ArrayBuffer | null>(null)
   const pageRef = useRef<HTMLDivElement>(null)
 
   const editor = useEditor({
@@ -125,10 +130,10 @@ export default function Editor() {
           if (warnings.length) setImportWarnings(warnings)
           setActiveTemplate('')
         } else if (ext === 'pdf') {
-          const { html, warning } = await importPdf(file)
-          editor.commands.setContent(html)
-          setImportWarnings([warning])
-          setActiveTemplate('')
+          const result = await importPdf(file)
+          setPdfPages(result.pages)
+          setPdfData(result.pdfData)
+          setPdfMode(true)
         } else {
           setImportWarnings(['Unsupported file type. Please use .docx or .pdf'])
         }
@@ -156,6 +161,22 @@ export default function Editor() {
   const handleClearSignatures = useCallback(() => {
     setSignatures([])
   }, [])
+
+  const handleExitPdfMode = useCallback(() => {
+    setPdfMode(false)
+    setPdfPages([])
+    setPdfData(null)
+  }, [])
+
+  if (pdfMode && pdfPages.length > 0 && pdfData) {
+    return (
+      <PdfAnnotator
+        pages={pdfPages}
+        pdfData={pdfData}
+        onExit={handleExitPdfMode}
+      />
+    )
+  }
 
   return (
     <div className="editor-wrapper">
