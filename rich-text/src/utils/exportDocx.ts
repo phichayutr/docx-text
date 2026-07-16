@@ -70,6 +70,10 @@ function buildFullHtml(
 
   html = pxToPt(html)
   html = normalizeWhitespace(html)
+  
+  // Preserve empty lines when converting via LibreOffice
+  html = html.replace(/<p[^>]*>\s*<\/p>/gi, '<p>&nbsp;</p>')
+  html = html.replace(/<p[^>]*>\s*<br\s*\/?>\s*<\/p>/gi, '<p>&nbsp;</p>')
 
   let signatureLayer = ''
   if (signatures.length > 0) {
