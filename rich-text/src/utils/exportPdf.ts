@@ -72,8 +72,12 @@ function buildFullHtml(
   html = normalizeWhitespace(html);
 
   // Preserve empty lines when converting via LibreOffice
-  html = html.replace(/<p[^>]*>\s*<\/p>/gi, '<p>&nbsp;</p>')
-  html = html.replace(/<p[^>]*>\s*<br\s*\/?>\s*<\/p>/gi, '<p>&nbsp;</p>');
+  html = html.replace(/<p[^>]*>\s*<\/p>/gi, '<div>&nbsp;</div>')
+  html = html.replace(/<p[^>]*>\s*<br\s*\/?>\s*<\/p>/gi, '<div>&nbsp;</div>')
+
+  // Convert all remaining <p> tags to <div> because LibreOffice HTML import forces default paragraph margins on <p>
+  html = html.replace(/<p\b/gi, '<div');
+  html = html.replace(/<\/p>/gi, '</div>');
 
   let signatureLayer = "";
   if (signatures.length > 0) {
