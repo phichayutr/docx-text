@@ -65,7 +65,8 @@ function buildFullHtml(
       td, th { border: 1px solid #000; padding: 8px 12px; }
       th { background-color: #f0f0f0; }
       img { max-width: 100%; height: auto; }
-      p, h1, h2, h3 { page-break-inside: avoid; }
+      p { page-break-inside: avoid; }
+      h1, h2, h3 { page-break-inside: avoid; margin-top: 0.5em; margin-bottom: 0.5em; }
     </style>`
 
   html = pxToPt(html)
@@ -78,6 +79,21 @@ function buildFullHtml(
   // Convert all remaining <p> tags to <div> because LibreOffice HTML import forces default paragraph margins on <p>
   html = html.replace(/<p\b/gi, '<div');
   html = html.replace(/<\/p>/gi, '</div>');
+
+  // Convert h1, h2, h3 to div to bypass LibreOffice forced heading margins
+  const headingStyles: Record<string, string> = {
+    '1': 'font-size: 32pt; font-weight: bold; margin: 0; padding: 0; line-height: 1;',
+    '2': 'font-size: 24pt; font-weight: bold; margin: 0; padding: 0; line-height: 1.5;',
+    '3': 'font-size: 19pt; font-weight: bold; margin: 0; padding: 0; line-height: 1.5;'
+  };
+  html = html.replace(/<h([1-3])\b([^>]*)>/gi, (match, level, attrs) => {
+    const style = headingStyles[level];
+    if (!attrs.includes('style="')) {
+      return `<div${attrs} style="${style}">`;
+    }
+    return `<div${attrs.replace('style="', `style="${style} `)}>`;
+  });
+  html = html.replace(/<\/h[1-3]>/gi, '</div>');
 
   let signatureLayer = ''
   if (signatures.length > 0) {
